@@ -1,9 +1,7 @@
-import logo from './logo.svg';
-import './App.css';
 import  { useState } from 'react'
 import api from './api/api'
 
-function App() {
+function App() {// eslint-disable-next-line
   const [ user , setUser ] = useState('');
   const  getRequest = async () => {
     const { data } = await api.get('/users')
