@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/orinizri/bankAPIFullStack#readme",
   "dependencies": {
+    "@heroku-cli/plugin-buildpacks": "^7.54.0",
     "heroku": "^7.59.2"
   }
 }
