@@ -1,6 +1,5 @@
 const res = require('express/lib/response');
 const ClientModel = require('../models/client')
-const mongoose = require('mongoose')
 
 const addClient = async (req, res) => {
     console.log("add client")
