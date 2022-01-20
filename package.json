@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "node ./frontend/src/app.js",
-    "heroku-postbuild" : "npm install --prefix frontend &&  npm run build --prefix frontend"
+    "start": "node /frontend/src/app.js",
+    "heroku-postbuild": "npm install --prefix frontend &&  npm run build --prefix frontend"
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/orinizri/bankAPIFullStack/issues"
   },
-  "homepage": "https://github.com/orinizri/bankAPIFullStack#readme"
+  "homepage": "https://github.com/orinizri/bankAPIFullStack#readme",
+  "dependencies": {
+    "heroku": "^7.59.2"
+  }
 }
