@@ -1,25 +1,23 @@
 {
-  "name": "bankapiclientandserver",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node /backend/app.js",
+    "server": "nodemon app.js",
+    "client": "npm run start --prefix frontend",
+    "start": "node app.js",
     "heroku-postbuild": "npm install --prefix frontend &&  npm run build --prefix frontend"
+
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/orinizri/bankAPIFullStack.git"
-  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/orinizri/bankAPIFullStack/issues"
-  },
-  "homepage": "https://github.com/orinizri/bankAPIFullStack#readme",
   "dependencies": {
-    "@heroku-cli/plugin-buildpacks": "^7.54.0",
-    "heroku": "^7.59.2"
+    "dotenv": "^14.2.0",
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15",
+    "path": "^0.12.7"
   }
 }
