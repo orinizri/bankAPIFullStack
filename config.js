@@ -1,7 +1,7 @@
 require("dotenv").config()
 
 const CorsConfig = {
-    origin:["http://localhost:3000", "https://localhost:3000"]
+    origin:["http://localhost:3000", "http://localhost:3001"]
 }
 const {  MONGOOSE_SERVER } = process.env 
 
