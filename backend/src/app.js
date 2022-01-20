@@ -3,9 +3,15 @@ const app = express();
 const mongoose = require('./db/mongoose')
 const port = process.env.PORT || 3000;
 const cors = require('cors')
+const path = require('path')
+
+const publicPath = path.join(__dirname, 'client/build')
 
 app.use(cors());
 app.use(express.json());
+
+app.use(express.static(publicPath))
+
 
 app.get('/api/users' , (req,res) => {
     try {

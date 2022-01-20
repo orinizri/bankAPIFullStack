@@ -1,0 +1,20 @@
+{
+  "name": "bankapiclientandserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild" : "npm install --prefix frontend &&  npm run build --prefix frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orinizri/bankAPIFullStack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/orinizri/bankAPIFullStack/issues"
+  },
+  "homepage": "https://github.com/orinizri/bankAPIFullStack#readme"
+}
