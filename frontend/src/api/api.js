@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-let myUrl = 'http://localhost:3000/';
+let myUrl = 'http://localhost:8080/api';
 if (process.env.NODE_ENV === 'production') {
     myUrl = 'api'
 }

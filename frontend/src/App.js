@@ -13,7 +13,7 @@ function App() {// eslint-disable-next-line
   return (
     <div>
       <h1>Handle your bank</h1>
-      {user ? user : `Hello world!` }
+      {user ? user : `Hello world! add` }
       {/* <button onClick={getRequest}>get</button> */}
     </div>
   );
