@@ -1,10 +1,10 @@
 const express = require('express')
 const clientRouter = express.Router();
-const { getAllClients, addClient } = require('../controllers/client')
+const { getAllClients, addClient , findClient} = require('../controllers/client')
 
-clientRouter.get('/clients',addClient);
 clientRouter.get('/allClients', getAllClients);
-
+clientRouter.get('/clients',addClient);
+clientRouter.get('/clients/:id', findClient);
 
 
 

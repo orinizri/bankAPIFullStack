@@ -15,9 +15,8 @@ function App() {
   return (
     <div className="container">
       <h1>Handle your bank</h1>
-      <h3>Clients:</h3>
       <div className="buttons-container">
-        <button onClick={()=>setShowClientsMode(!showClientsMode)}>Show all clients</button>
+        <button onClick={()=>setShowClientsMode(!showClientsMode)}>{showClientsMode ? 'Hide all clients' : 'Show all client'}</button>
         <div className="get-client-container">
           <label id="id">Search client:</label>
           <input htmlFor="id" placeholder='id' />
