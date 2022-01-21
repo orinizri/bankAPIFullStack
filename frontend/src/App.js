@@ -1,11 +1,11 @@
 import  { useEffect, useState } from 'react'
-import api from './api/api'
+import axiosRequest from './api/api'
 
 function App() {
   const [ user , setUser ] = useState('');
   useEffect(()=>{
     const  getRequest = async () => {
-      const { data } = await api.get('/clients')
+      const { data } = await axiosRequest.get('/clients')
       setUser(data)
       console.log(data)
     }
