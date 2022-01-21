@@ -28,6 +28,7 @@ app.use(express.static(localPath))
 app.use('/clients', clientRouter)
 
 app.get('*', function (request, response) {
+    console.log(__dirname)
     response.sendFile(path.join(__dirname, '/frontend/build/index.html'));
 });
 
