@@ -1,10 +1,11 @@
-import  { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import axiosRequest from './api/api'
 
 function App() {
-  const [ user , setUser ] = useState('');
-  useEffect(()=>{
-    const  getRequest = async () => {
+  const [user, setUser] = useState('');
+  const [showClientsMode, setShowClientsMode] = useState(false);
+  useEffect(() => {
+    const getRequest = async () => {
       const { data } = await axiosRequest.get('/allClients')
       // console.log(data)
       setUser(data)
@@ -12,19 +13,25 @@ function App() {
     getRequest()
   }, [user])
   return (
-    <div>
+    <div className="container">
       <h1>Handle your bank</h1>
-      {user ? 
-      user.map((client,index) => {
-        // console.log(client)
-        return (<div key={client._id}>
-        <span>client index: {index}, </span>
-        <span>name: {client.name}, </span>
-        <span>_id: {client._id}</span>
-        </div>)
-      }) : 
-      <p>Loading...</p> }
-      {/* {user ? user : <p>no users</p>} */}
+      <h3>Clients:</h3>
+      <div className="buttons-container">
+        <button onClick={()=>setShowClientsMode(!showClientsMode)}>Show all clients</button>
+        <div className="get-client-container">
+          <label id="id">Search client:</label>
+          <input htmlFor="id" placeholder='id' />
+          <button>Get client</button>
+        </div>
+        <button>Add new Client</button>
+      </div>
+      {showClientsMode && user &&
+        user.map((client) => {
+          return (<ul key={client._id}>
+            <li>name: {client.name}, </li>
+            <li>_id: {client._id}</li>
+          </ul>)
+        })}
     </div>
   );
 }
