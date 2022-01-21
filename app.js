@@ -9,7 +9,6 @@ const path = require('path');
 const res = require('express/lib/response');
 const clientRouter = require('./routes/client')
 const publicPath = path.join(__dirname, 'frontend/build')
-const localPath = path.join(__dirname, 'frontend/public')
 // Connect to the MongoDB cluster
 
 try {
@@ -23,13 +22,13 @@ try {
 
 app.use(cors(CorsConfig));
 app.use(express.json());
-app.use(express.static(localPath))
+app.use(express.static(publicPath))
 
 app.use('/', clientRouter)
 
 app.get('*', function (request, response) {
     console.log(__dirname)
-    response.sendFile(path.join(__dirname, '/frontend/index.html'));
+    response.sendFile(path.join(__dirname, '/frontend/build/index.html'));
 });
 
 
