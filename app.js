@@ -25,7 +25,7 @@ app.use(cors(CorsConfig));
 app.use(express.json());
 app.use(express.static(localPath))
 
-app.use('/api', clientRouter)
+app.use('/clients', clientRouter)
 
 app.get('*', function (request, response) {
     response.sendFile(path.join(__dirname, '/frontend/build/index.html'));
