@@ -2,9 +2,15 @@ const res = require('express/lib/response');
 const ClientModel = require('../models/client')
 
 const addClient = async (req, res) => {
+    const { name, cash, deposit } = req.body
     try {
-    const newClient = new ClientModel({ name : "ori"})
-        res.send(newClient)
+    const newClient = new ClientModel({ 
+        name,
+        cash,
+        deposit
+    })
+    newClient.save()
+    res.send(newClient)
     } catch (e) {
         res.send({error : e.message})
     }

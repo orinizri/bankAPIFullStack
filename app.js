@@ -9,7 +9,6 @@ const path = require('path');
 const res = require('express/lib/response');
 const clientRouter = require('./routes/client')
 const publicPath = path.join(__dirname, 'frontend/build')
-// Connect to the MongoDB cluster
 
 try {
     mongoose.connect(
@@ -25,12 +24,10 @@ app.use(express.json());
 app.use(express.static(publicPath))
 
 app.use('/', clientRouter)
-
 app.get('*', function (request, response) {
     console.log(__dirname)
     response.sendFile(path.join(__dirname, '/frontend/build/index.html'));
 });
-
 
 app.listen(process.env.PORT || 8080, () => {
     console.log(`server is on port ${process.env.PORT || 8080}`)

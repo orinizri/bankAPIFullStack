@@ -3,7 +3,7 @@ const clientRouter = express.Router();
 const { getAllClients, addClient , findClient} = require('../controllers/client')
 
 clientRouter.get('/allClients', getAllClients);
-clientRouter.get('/clients',addClient);
+clientRouter.post('/addClient',addClient);
 clientRouter.get('/clients/:id', findClient);
 
 
