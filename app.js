@@ -25,14 +25,14 @@ app.use(cors(CorsConfig));
 app.use(express.json());
 app.use(express.static(localPath))
 
-app.use('/clients', clientRouter)
+app.use('/', clientRouter)
 
 app.get('*', function (request, response) {
     console.log(__dirname)
-    response.sendFile(path.join(__dirname, '/frontend/build/index.html'));
+    response.sendFile(path.join(__dirname, '/frontend/index.html'));
 });
 
 
 app.listen(process.env.PORT || 8080, () => {
-    console.log(`server is on port`)
+    console.log(`server is on port ${process.env.PORT || 8080}`)
 })
