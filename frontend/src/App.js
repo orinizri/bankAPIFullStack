@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import axiosRequest from './api/api'
+const { v4: uuidv4 } = require('uuid');
 
 function App() {
   const [clientsData, setClientsData] = useState('');
@@ -16,9 +17,11 @@ function App() {
         setClient(clientRequest.data[0])
         setSingleClientMode(true)
         console.log(clientRequest.data[0])
+      } else {
+        throw Error('Client does not exist')
       }
     } catch (e) {
-      throw Error('Unable to fulfill server request: ' + e.message)
+      throw Error('Unable to fulfill request: ' + e.message)
     }
   }
   
@@ -50,7 +53,7 @@ function App() {
           return (<ul key={_id}>
             <li>Client name: {name}, </li>
             <li>Client id: {_id}</li>
-            <li>Cash: {deposit}</li>
+            <li>Cash: {cash}</li>
             <li>Deposit: {deposit}</li>
           </ul>)
         })}
@@ -59,12 +62,11 @@ function App() {
         {singleClientMode && client && Object.keys(client).map((key, index) => {
             return (
             <>
-              <li key={index}>{key}: {client[key]}</li>
+              <li key={uuidv4()}>{key}: {client[key]}</li>
             </>
             )
           })}
         </ul>
-
     </div>
   );
 }
