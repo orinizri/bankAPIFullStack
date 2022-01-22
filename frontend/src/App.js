@@ -13,6 +13,7 @@ function App() {
   const [showAddClientSection, setShowAddClientSection] = useState(false);
   const [isNewClientAdded, setIsNewClientAdded] = useState(false);
   const [updateMode, setUpdateMode] = useState(true);
+  const [updatedClient, setUpdatedClient] = useState({});
 
   const getClient = async (e) => {
     const clientId = e.target.previousElementSibling.value;
@@ -38,11 +39,13 @@ function App() {
 
   useEffect(() => {
     const getClientsData = async () => {
-      const { data } = await axiosRequest.get('/allClients')
-      setClientsData(data)
+      if (showClientsMode) {
+        const { data } = await axiosRequest.get('/allClients')
+        setClientsData(data)
+      }
     }
     getClientsData()
-  }, [clientsData])
+  }, [clientsData, showClientsMode, updateMode, singleClientMode, updatedClient])
 
   const isNewClient = (boolean) => {
     if (boolean) {
@@ -50,32 +53,52 @@ function App() {
       setShowClientsMode(false)
       setSingleClientMode(false)
       setShowClientsMode(false)
+      setUpdateMode(false)
     }
+    setIsNewClientAdded(!boolean)
   }
   const updateClient = () => {
-    setUpdateMode(!updateMode)
+    if (!updateMode) {
+      setUpdateMode(!updateMode)
+      setSingleClientMode(false)
+      setShowAddClientSection(false)
+      setShowAddClientSection(false)
+
+    }
+
   }
   const ClientUpdates = async (updates) => {
     const id = updates[0].value
     const actionAmount = updates[1].value
     const actionType = updates[1].id
-    console.log(updates)
-    console.log(actionType)
-    console.log(id)
     try {
       const clientRequest = await axiosRequest.put(`/clients/${actionType}/` + id + '/' + actionAmount)
       const selectedClient = (clientRequest.data)
-      console.log(selectedClient)
+        console.log(selectedClient)
+        setUpdatedClient(selectedClient)
+        setIsNewClientAdded(false)
+        setSingleClientMode(false)
+        setShowAddClientSection(false)
+        setUpdateMode(true)
       
     } catch (e) {
       throw Error('Unable to fulfill request: ' + e.message)
     }
   }
+  const setShowClients = () => {
+    if (showClientsMode) {
+      setIsNewClientAdded(false)
+      setSingleClientMode(false)
+      setUpdateMode(false)
+      setShowAddClientSection(false)
+    }
+    setShowClientsMode(!showClientsMode)
+  }
   return (
     <div className="container">
       <h1>Handle your bank</h1>
       <div className="buttons-container">
-        <button onClick={() => setShowClientsMode(!showClientsMode)}>
+        <button onClick={() => setShowClients()}>
           Toggle clients
         </button>
         <div className="get-client-container">
@@ -92,7 +115,6 @@ function App() {
       {
         updateMode && <UpdateClientSection getUpdateDetails={ClientUpdates} />
       }
-
       {showClientsMode && clientsData &&
         clientsData.map(({ deposit, _id, cash, name }) => {
           return (<ul key={_id}>
@@ -106,10 +128,21 @@ function App() {
       {singleClientMode && client && Object.keys(client).filter(key => key !== '__v').map((key) => {
         return (
           <div key={uuidv4()}>
-            <>{key}: {client[key]}</>
+            <div className="client-view">{key}: {client[key]}</div>
           </div>
         )
       })}
+
+      {updatedClient &&
+      Object.keys(updatedClient).filter(key => key !== '__v').map((key) => {
+        return (
+          <div key={uuidv4()}>
+            <div className="updates">{key}: {updatedClient[key]}</div>
+          </div>
+        )
+      })
+    }
+
     </div>
   );
 }
