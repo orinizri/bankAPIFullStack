@@ -2,39 +2,40 @@ import { useEffect, useState } from 'react'
 import axiosRequest from './api/api'
 
 function App() {
-  const [user, setUser] = useState('');
+  const [clientsData, setClientsData] = useState('');
   const [showClientsMode, setShowClientsMode] = useState(false);
-  const [showClientMode, setShowClientMode] = useState(false);
+  const [singleClientMode, setSingleClientMode] = useState(false);
   const [client, setClient] = useState({});
+
   const getClient = async (e) => {
     const clientId = e.target.previousElementSibling.value;
-    const clientRequest = await axiosRequest.get('/clients/' + clientId)
-    if (clientRequest.data[0]) {
+    try {
+      const clientRequest = await axiosRequest.get('/clients/' + clientId)
       setShowClientsMode(false)
-      setClient(clientRequest.data[0])
-      setShowClientMode(true)
-      console.log(clientRequest.data[0])
-      // got the client object, need to find a way to loop and preset it
-      // need to make sure i get the client and not html document
+      if (clientRequest.data[0]._id === clientId) {
+        setClient(clientRequest.data[0])
+        setSingleClientMode(true)
+        console.log(clientRequest.data[0])
+      }
+    } catch (e) {
+      throw Error('Unable to fulfill server request: ' + e.message)
     }
   }
-
+  
   useEffect(() => {
-    const getRequest = async () => {
+    const getClientsData = async () => {
       const { data } = await axiosRequest.get('/allClients')
-      // console.log(data)
-      setUser(data)
+      setClientsData(data)
     }
-    getRequest()
-  }, [user])
+    getClientsData()
+  }, [clientsData])
+
   return (
     <div className="container">
       <h1>Handle your bank</h1>
       <div className="buttons-container">
-        <button onClick={()=>setShowClientsMode(!showClientsMode)}>
-          {showClientsMode ?
-          'Hide all clients' : 
-          'Show all client'}
+        <button onClick={()=>setShowClientsMode(true)}>
+          Show all clients
         </button>
         <div className="get-client-container">
           <label id="id">Search client:</label>
@@ -43,13 +44,27 @@ function App() {
         </div>
         <button>Add new Client</button>
       </div>
-      {showClientsMode && user &&
-        user.map((client) => {
-          return (<ul key={client._id}>
-            <li>name: {client.name}, </li>
-            <li>_id: {client._id}</li>
+
+      {showClientsMode && clientsData &&
+        clientsData.map(({deposit, _id, cash, name}) => {
+          return (<ul key={_id}>
+            <li>Client name: {name}, </li>
+            <li>Client id: {_id}</li>
+            <li>Cash: {deposit}</li>
+            <li>Deposit: {deposit}</li>
           </ul>)
         })}
+
+        <ul>
+        {singleClientMode && client && Object.keys(client).map((key, index) => {
+            return (
+            <>
+              <li key={index}>{key}: {client[key]}</li>
+            </>
+            )
+          })}
+        </ul>
+
     </div>
   );
 }
