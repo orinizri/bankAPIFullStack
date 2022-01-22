@@ -13,6 +13,7 @@ function App() {
 
   const getClient = async (e) => {
     const clientId = e.target.previousElementSibling.value;
+
     try {
       const clientRequest = await axiosRequest.get('/clients/' + clientId)
       setShowClientsMode(false)
@@ -38,9 +39,12 @@ function App() {
 
   const isNewClient = (boolean) => {
     console.log(boolean)
-    setIsNewClientAdded(boolean)
-    setShowClientsMode(false)
-    setSingleClientMode(false)
+    if (boolean) {
+      setIsNewClientAdded(boolean)
+      setShowClientsMode(false)
+      setSingleClientMode(false)
+      // setShowAddClientSection(false)
+    }
   }
 
 
