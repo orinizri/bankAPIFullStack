@@ -1,7 +1,15 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const validator = require('validator');
 
 const clientSchema = new mongoose.Schema({
-    name: String,
+    name: {
+        type: String,
+        trim: true,
+        default: "",
+        validate (value) {
+            return validator.isAlpha(value)
+        }
+    },
     deposit : {
         type: Number,
         default: 0

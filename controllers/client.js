@@ -2,7 +2,7 @@ const res = require('express/lib/response');
 const ClientModel = require('../models/client')
 
 const addClient = async (req, res) => {
-    const { name, cash, deposit } = req.body
+    const { name, cash, deposit } = req.query
     try {
     const newClient = new ClientModel({ 
         name,

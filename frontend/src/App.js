@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import axiosRequest from './api/api'
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
+import AddClientSection from './components/DisplayAddClient/AddClient';
 
 function App() {
   const [clientsData, setClientsData] = useState('');
   const [showClientsMode, setShowClientsMode] = useState(false);
   const [singleClientMode, setSingleClientMode] = useState(false);
   const [client, setClient] = useState({});
+  const [showAddClientSection, setShowAddClientSection] = useState(true);
+  const [isNewClientAdded, setIsNewClientAdded] = useState(false);
 
   const getClient = async (e) => {
     const clientId = e.target.previousElementSibling.value;
@@ -33,20 +36,31 @@ function App() {
     getClientsData()
   }, [clientsData])
 
+  const isNewClient = (boolean) => {
+    console.log(boolean)
+    setIsNewClientAdded(boolean)
+    setShowClientsMode(false)
+    setSingleClientMode(false)
+  }
+
+
   return (
     <div className="container">
       <h1>Handle your bank</h1>
       <div className="buttons-container">
-        <button onClick={()=>setShowClientsMode(true)}>
-          Show all clients
+        <button onClick={()=>setShowClientsMode(!showClientsMode)}>
+          Toggle clients
         </button>
         <div className="get-client-container">
           <label id="id">Search client:</label>
           <input htmlFor="id" placeholder='id' />
           <button onClick={(e)=> getClient(e)}>Get client</button>
         </div>
-        <button>Add new Client</button>
+        <button onClick={()=>setShowAddClientSection(!showAddClientSection)}>Add new Client</button>
       </div>
+      {
+        showAddClientSection && <AddClientSection newClientStatus={isNewClient}/>
+      }
 
       {showClientsMode && clientsData &&
         clientsData.map(({deposit, _id, cash, name}) => {
@@ -58,15 +72,13 @@ function App() {
           </ul>)
         })}
 
-        <ul>
-        {singleClientMode && client && Object.keys(client).map((key, index) => {
+        {singleClientMode && client && Object.keys(client).filter(key => key !== '__v').map((key) => {
             return (
-            <>
-              <li key={uuidv4()}>{key}: {client[key]}</li>
-            </>
+            <div key={uuidv4()}>
+              <>{key}: {client[key]}</>
+            </div>
             )
           })}
-        </ul>
     </div>
   );
 }
