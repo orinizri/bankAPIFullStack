@@ -3,9 +3,10 @@ import axiosRequest from '../../api/api';
 import { v4 as uuidv4 } from 'uuid';
 
 const AddClientSection = (props) => {
-    const [ createdClient , setCreatedClient ] = useState({})
+    const [ createdClientMode , setCreatedClientMode ] = useState(false)
+    const [ createdClient , setCreatedClient ] = useState(false)
     const { newClientStatus } = props
-    // console.log(newClientStatus)
+
     const createNewClient = async (e) => {
         const newClientInfo = [...e.target.parentElement.children].filter(child => {
             return child.tagName === "INPUT"
@@ -25,6 +26,7 @@ const AddClientSection = (props) => {
             console.log(requestURL)
             const addClientRequest = await axiosRequest.post(requestURL)
             setCreatedClient(addClientRequest.data)
+            setCreatedClientMode(true)
         } catch (e) {
             throw Error('Unable to create new client, my bad')
         }
@@ -32,8 +34,8 @@ const AddClientSection = (props) => {
     }
 
     useEffect(()=>{
-        if (createdClient) {
-            props.newClientStatus(true)
+        if (createdClientMode) {
+            newClientStatus(true)
         }
     }, [createdClient])
 
