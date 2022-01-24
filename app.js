@@ -24,6 +24,11 @@ app.use(express.json());
 app.use(express.static(publicPath))
 
 app.use('/', clientRouter)
+
+app.use("*", (req,res) => {
+    res.send("Route not found")
+})
+
 app.get('*', function (request, response) {
     console.log(__dirname)
     response.sendFile(path.join(__dirname, '/frontend/build/index.html'));

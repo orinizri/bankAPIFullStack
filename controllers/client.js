@@ -1,53 +1,54 @@
-const res = require('express/lib/response');
 const ClientModel = require('../models/client')
 
 const addClient = async (req, res) => {
-    const { name, cash, deposit } = req.query
     try {
+        const { name, cash, deposit } = req.query
         const newClient = new ClientModel({
             name,
             cash,
             deposit
         })
         newClient.save()
-        res.send(newClient)
+        res.status(200).send(newClient)
     } catch (e) {
-        res.send({ error: e.message })
+        res.status(400).send({ error: e.message })
     }
 }
+
 const getAllClients = async (req, res) => {
     try {
         const users = await ClientModel.find()
-        res.send(users)
+        res.status(200).send(users)
     } catch (e) {
-        res.send({ error: e.message })
+        res.status(400).send({ error: e.message })
     }
 }
 
 const findClient = async (req, res) => {
-    const { id } = req.params
     try {
+        const { id } = req.params
         const selectedClient = await ClientModel.find({ _id: id })
         if (selectedClient) {
             res.status(200).send(selectedClient)
         }
     } catch (e) {
-        res.send({ error: e.message })
+        res.status(400).send({ error : e.message })
     }
 }
 const depositToClient = async (req, res) => {
-    const { id, amount } = req.params
     try {
-        const client = await ClientModel.findOneAndUpdate({ _id: id }, { $inc: { 'deposit': amount } },{new: true})
-        res.status(200).send(client)
+        const { id, amount } = req.params
+        const updatedClient = await ClientModel.findOneAndUpdate({ _id : id }, { $inc: { 'deposit': amount } },{new: true})
+        res.status(200).send(updatedClient)
     } catch (e) {
-        res.send({ error: e.message })
+        res.status(400).send({ error : e.message })
     }
 }
+
 const withdrawalToClient = async (req, res) => {
-    const { id, amount } = req.params
     try {
-        const [selectedClient] = await ClientModel.find({ _id: id })
+        const { id, amount } = req.params
+        const [selectedClient] = await ClientModel.find({ _id : id })
         if (selectedClient.deposit - amount >= 0) {
             const updatedClient = await ClientModel.findOneAndUpdate({ _id: id }, { $inc: { 'deposit': -amount } },{new: true})
             res.status(200).send(updatedClient)
@@ -55,7 +56,7 @@ const withdrawalToClient = async (req, res) => {
             throw Error("Not enough deposits")
         }
     } catch (e) {
-        res.send({ error: e.message })
+        res.status(400).send({ error : e.message })
     }
 }
 

@@ -1,6 +1,12 @@
 const express = require('express')
 const clientRouter = express.Router();
-const { getAllClients, addClient , findClient, depositToClient, withdrawalToClient} = require('../controllers/client')
+const { 
+    getAllClients, 
+    addClient , 
+    findClient, 
+    depositToClient, 
+    withdrawalToClient
+} = require('../controllers/client')
 
 clientRouter.get('/allClients', getAllClients);
 clientRouter.post('/addClient',addClient); // Query: name, cash, deposit
